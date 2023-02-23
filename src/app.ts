@@ -1,9 +1,9 @@
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import mongoose from "mongoose";
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import mongoose from 'mongoose';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,15 +14,15 @@ const whitelist = process.env.WHITELISTED_ORIGINS as unknown as Array<string>;
 const corsOptions = {
   origin: function (
     origin: string | undefined,
-    callback: (error: Error | null, succes?: boolean) => void
+    callback: (error: Error | null, succes?: boolean) => void,
   ) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: "GET,PUT,POST,DELETE",
+  methods: 'GET,PUT,POST,DELETE',
   credentials: true,
 };
 
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 const mongoDB = process.env.MONGODB_URL as string;
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false);
 mongoose.connect(mongoDB);
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));
