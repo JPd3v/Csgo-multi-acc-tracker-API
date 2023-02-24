@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Items from '../models/items';
-import type { ItemsInfo } from '../types';
+import casesScrapper from '../webScrapers/casesScrapper';
 
 export const getItems = async (req: Request, res: Response) => {
   const itemName = req.query.itemName;
@@ -18,4 +18,20 @@ export const getItems = async (req: Request, res: Response) => {
     .skip(skipPage);
 
   return res.status(200).json(found);
+};
+
+export const updateCases = async (_req: Request, res: Response) => {
+  try {
+    const cases = await casesScrapper();
+
+    cases.map(async (element) => {
+      await Items.findOneAndUpdate({ item_name: element.item_name }, element, {
+        upsert: true,
+      });
+    });
+
+    return res.status(200).json({ message: 'items updated succefully' });
+  } catch (error) {
+    res.status(500).json({ message: 'somethin went wrong' });
+  }
 };
