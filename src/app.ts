@@ -4,6 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
+import itemsRoutes from './routes/items';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,5 +34,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 const mongoDB = process.env.MONGODB_URL as string;
 mongoose.set('strictQuery', false);
 mongoose.connect(mongoDB);
+
+// routes
+app.use('/items', itemsRoutes);
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));
