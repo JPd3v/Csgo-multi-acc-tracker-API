@@ -3,6 +3,7 @@ interface ItemsInfo {
   collection_name: string;
   item_data: [
     {
+      steam_url: string;
       quality?: string;
       price: number;
     },

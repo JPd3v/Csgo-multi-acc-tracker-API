@@ -6,6 +6,7 @@ const itemsSchema = new Schema({
   collection_name: { type: String, required: true },
   item_data: [
     {
+      steam_url: { type: String, required: true },
       quality: {
         type: String,
       },

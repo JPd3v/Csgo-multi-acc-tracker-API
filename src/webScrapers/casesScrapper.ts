@@ -24,7 +24,12 @@ export default async function casesScrapper() {
 
       const marketitems = await page.$$('.market_listing_row_link');
 
-      marketitems.map(async (item) => {
+      marketitems.map(async (item, index) => {
+        const itemSteamURL = await page.$eval(
+          `#resultlink_${index}`,
+          (element) => element.getAttribute('href'),
+        );
+
         const itemPrice = await page.evaluate(
           (el) =>
             el.querySelector('span.normal_price > span.normal_price')
@@ -42,6 +47,7 @@ export default async function casesScrapper() {
           collection_name: 'cases',
           item_data: [
             {
+              steam_url: itemSteamURL,
               price: formatedPrice,
             },
           ],
