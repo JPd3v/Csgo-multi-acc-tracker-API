@@ -69,6 +69,6 @@ export default async function casesScrapper() {
 
     return fileteredItems;
   } catch (error) {
-    new Error(error);
+    console.log('something went wrong scrapping cases information', error);
   }
 }

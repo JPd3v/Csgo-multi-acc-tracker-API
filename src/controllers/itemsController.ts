@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Items from '../models/items';
 import casesScrapper from '../webScrapers/casesScrapper';
+import weaponScrapper from '../webScrapers/weaponsScrapper';
 
 export const getItems = async (req: Request, res: Response) => {
   const itemName = req.query.itemName;
@@ -31,7 +32,29 @@ export const updateCases = async (_req: Request, res: Response) => {
     });
 
     return res.status(200).json({ message: 'items updated succefully' });
-  } catch (error) {
+  } catch (_error) {
+    res.status(500).json({ message: 'somethin went wrong' });
+  }
+};
+
+export const updateWeapons = async (req: Request, res: Response) => {
+  interface RequestBody {
+    collectionTag: string;
+    collectionName: string;
+  }
+
+  const { collectionTag, collectionName }: RequestBody = req.body;
+  try {
+    const weapons = await weaponScrapper(collectionTag, collectionName);
+
+    weapons.map(async (weapon) => {
+      await Items.findOneAndUpdate({ item_name: weapon.item_name }, weapon, {
+        upsert: true,
+      });
+    });
+
+    res.status(200).json({ message: 'items updated succefully' });
+  } catch (_error) {
     res.status(500).json({ message: 'somethin went wrong' });
   }
 };
