@@ -5,6 +5,9 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import itemsRoutes from './routes/items';
+import usersRoutes from './routes/users';
+
+import './strategies/steamStrategy';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,5 +40,6 @@ mongoose.connect(mongoDB);
 
 // routes
 app.use('/items', itemsRoutes);
+app.use('/users', usersRoutes);
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));

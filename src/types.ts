@@ -10,4 +10,10 @@ interface ItemsInfo {
   ];
 }
 
-export type { ItemsInfo };
+interface IUser {
+  name: string;
+  refresh_token?: string;
+  OAuth_id: string;
+}
+
+export type { ItemsInfo, IUser };
