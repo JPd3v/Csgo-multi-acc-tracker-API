@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 const whitelist = process.env.WHITELISTED_ORIGINS as unknown as Array<string>;
 
 const corsOptions = {
-  origin: function (
+  origin(
     origin: string | undefined,
     callback: (error: Error | null, succes?: boolean) => void,
   ) {

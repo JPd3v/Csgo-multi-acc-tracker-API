@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import puppeteer from 'puppeteer';
 import type { ItemsInfo } from '../types';
 
@@ -91,6 +92,6 @@ export default async function scrapeCollection(
     browser.close();
     return scrapedItems;
   } catch (error) {
-    console.log(error);
+    return Promise.reject(new Error('ERROR happen on scrapping weapon prices'));
   }
 }

@@ -1,9 +1,8 @@
-import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import { CookieOptions } from 'express';
-const isSecure = process.env.IS_HTTP_SECURE as unknown as boolean;
-import type { IUser } from '../types';
 import { Types } from 'mongoose';
+
+const isSecure = process.env.IS_HTTP_SECURE as unknown as boolean;
 
 export const COOKIES_OPTIONS: CookieOptions = {
   secure: isSecure,

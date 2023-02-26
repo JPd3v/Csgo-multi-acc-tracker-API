@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import puppeteer from 'puppeteer';
 import type { ItemsInfo } from '../types';
 
@@ -75,6 +76,6 @@ export default async function casesScrapper() {
 
     return fileteredItems;
   } catch (error) {
-    console.log('something went wrong scrapping cases information', error);
+    return Promise.reject(new Error('ERROR happen on scrapping cases prices'));
   }
 }

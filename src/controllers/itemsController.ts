@@ -32,8 +32,9 @@ export const updateCases = async (_req: Request, res: Response) => {
     });
 
     return res.status(200).json({ message: 'items updated succefully' });
-  } catch (_error) {
-    res.status(500).json({ message: 'somethin went wrong' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'somethig went wrong' });
   }
 };
 
@@ -54,7 +55,8 @@ export const updateWeapons = async (req: Request, res: Response) => {
     });
 
     res.status(200).json({ message: 'items updated succefully' });
-  } catch (_error) {
-    res.status(500).json({ message: 'somethin went wrong' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'something went wrong' });
   }
 };

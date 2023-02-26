@@ -1,6 +1,6 @@
-import { COOKIES_OPTIONS } from './../utils/authenticate';
 import { Request, Response } from 'express';
 import passport from 'passport';
+import { COOKIES_OPTIONS } from '../utils/authenticate';
 
 export const steamLogIn = passport.authenticate('steam');
 
