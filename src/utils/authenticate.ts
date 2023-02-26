@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { CookieOptions } from 'express';
 import { Types } from 'mongoose';
+import passport from 'passport';
 
 const isSecure = process.env.IS_HTTP_SECURE as unknown as boolean;
 
@@ -27,3 +28,5 @@ export function getNewRefreshToken(_id: ITokenSignature) {
     expiresIn: eval(process.env.REFRESH_TOKEN_EXPIRY),
   });
 }
+
+export const verifyAuth = passport.authenticate('jwt', { session: false });

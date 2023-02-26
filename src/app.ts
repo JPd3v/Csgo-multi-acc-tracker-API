@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import itemsRoutes from './routes/items';
 import usersRoutes from './routes/users';
-
 import './strategies/steamStrategy';
+import './strategies/jwtStrategy';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
