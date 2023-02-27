@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 interface ItemsInfo {
   item_name: string;
   collection_name: string;
@@ -11,6 +13,7 @@ interface ItemsInfo {
 }
 
 interface IUser {
+  _id: string | Types.ObjectId;
   name: string;
   refresh_token?: string;
   OAuth_id: string;

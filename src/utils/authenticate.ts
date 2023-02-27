@@ -14,7 +14,7 @@ export const COOKIES_OPTIONS: CookieOptions = {
 };
 
 interface ITokenSignature {
-  _id: Types.ObjectId | string;
+  _id: string | Types.ObjectId;
 }
 
 export function getNewAccessToken({ _id }: ITokenSignature) {
