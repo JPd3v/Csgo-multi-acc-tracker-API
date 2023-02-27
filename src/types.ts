@@ -19,4 +19,16 @@ interface IUser {
   OAuth_id: string;
 }
 
-export type { ItemsInfo, IUser };
+interface ISteamAccount {
+  user_id: string | Types.ObjectId;
+  name: string;
+  steam_url?: string;
+  money_revenue: number;
+}
+
+interface IPagination {
+  pageSize: number;
+  page: number;
+}
+
+export type { ItemsInfo, IUser, ISteamAccount, IPagination };

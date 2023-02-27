@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import itemsRoutes from './routes/items';
 import usersRoutes from './routes/users';
+import steamAccountsRoutes from './routes/steamAccount';
 import './strategies/steamStrategy';
 import './strategies/jwtStrategy';
 
@@ -41,5 +42,6 @@ mongoose.connect(mongoDB);
 // routes
 app.use('/items', itemsRoutes);
 app.use('/users', usersRoutes);
+app.use('/steamAccounts', steamAccountsRoutes);
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));
