@@ -7,6 +7,7 @@ const steamAccounts = new Schema({
   name: { type: String, required: true },
   steam_url: { type: String },
   money_revenue: { type: Number, required: true, default: 0 },
+  creation_date: { type: Date, required: true, default: Date.now },
 });
 
 export default mongoose.model('SteamAccounts', steamAccounts);
