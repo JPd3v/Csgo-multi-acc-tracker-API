@@ -14,16 +14,20 @@ export const userAccounts = [
     .isInt()
     .withMessage('page should be an integer number'),
   validationErrors,
-  async (req: Request<IPagination>, res: Response) => {
+  async (req: Request, res: Response) => {
+    const { sort, sortBy, pageSize, page } =
+      req.query as unknown as IPagination;
+
     const userId = req.user._id;
-    const pageSize = req.params.pageSize;
-    const currentPage = req.params.page - 1;
+    const currentPage = page - 1;
     const skipPage = pageSize * currentPage;
+    const mongoSort = { [sortBy]: sort };
 
     try {
       const foundAccounts = await SteamAccounts.find({ user_id: userId })
         .skip(skipPage)
-        .limit(pageSize);
+        .limit(pageSize)
+        .sort(mongoSort);
 
       return res.status(200).json(foundAccounts);
     } catch (_error) {

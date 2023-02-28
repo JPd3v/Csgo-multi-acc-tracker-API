@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { SortOrder, Types } from 'mongoose';
 
 interface ItemsInfo {
   item_name: string;
@@ -29,6 +29,16 @@ interface ISteamAccount {
 interface IPagination {
   pageSize: number;
   page: number;
+  sortBy?: string;
+  sort?: SortOrder;
 }
 
-export type { ItemsInfo, IUser, ISteamAccount, IPagination };
+interface Idrops {
+  name: string;
+  steam_account_id: string | Types.ObjectId;
+  quality: string;
+  price: number;
+  creation_date: string;
+}
+
+export type { ItemsInfo, IUser, ISteamAccount, IPagination, Idrops };
