@@ -1,5 +1,5 @@
 import express from 'express';
-import * as steamAccountsController from '../controllers/steamAccount';
+import * as steamAccountsController from '../controllers/steamAccountController';
 
 const router = express.Router();
 

@@ -14,10 +14,16 @@ export const userAccounts = [
     .isInt()
     .withMessage('page should be an integer number'),
   validationErrors,
-  async (req: Request, res: Response) => {
-    const { sort, sortBy, pageSize, page } =
-      req.query as unknown as IPagination;
-
+  async (
+    req: Request<
+      Record<string, never>,
+      Record<string, never>,
+      Record<string, never>,
+      IPagination
+    >,
+    res: Response,
+  ) => {
+    const { sort, sortBy, pageSize, page } = req.query;
     const userId = req.user._id;
     const currentPage = page - 1;
     const skipPage = pageSize * currentPage;
@@ -109,7 +115,7 @@ export const editAccount = [
       const updateAccount = await SteamAccounts.findOneAndUpdate(
         { _id: accountId, user_id: userId },
         update,
-        { returnDocument: 'after' },
+        { returnDocument: 'after', runValidators: true },
       );
 
       if (!updateAccount) {

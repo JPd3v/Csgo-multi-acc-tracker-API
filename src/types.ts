@@ -1,6 +1,7 @@
 import { SortOrder, Types } from 'mongoose';
 
 interface ItemsInfo {
+  _id?: Types.ObjectId;
   item_name: string;
   collection_name: string;
   item_data: [
@@ -13,14 +14,15 @@ interface ItemsInfo {
 }
 
 interface IUser {
-  _id: string | Types.ObjectId;
+  _id: Types.ObjectId;
   name: string;
   refresh_token?: string;
   OAuth_id: string;
 }
 
 interface ISteamAccount {
-  user_id: string | Types.ObjectId;
+  _id: Types.ObjectId;
+  user_id: Types.ObjectId;
   name: string;
   steam_url?: string;
   money_revenue: number;
@@ -34,8 +36,10 @@ interface IPagination {
 }
 
 interface Idrops {
+  _id: Types.ObjectId;
   name: string;
-  steam_account_id: string | Types.ObjectId;
+  user_id: Types.ObjectId;
+  steam_account_id: Types.ObjectId;
   quality: string;
   price: number;
   creation_date: string;

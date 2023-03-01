@@ -25,5 +25,6 @@ module.exports = {
     'prefer-destructuring': 'off',
     'no-underscore-dangle': 'off',
     'no-eval': 'off',
+    '@typescript-eslint/naming-convention': 'off',
   },
 };
