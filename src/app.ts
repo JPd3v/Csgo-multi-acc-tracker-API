@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import itemsRoutes from './routes/items';
 import usersRoutes from './routes/users';
 import steamAccountsRoutes from './routes/steamAccount';
+import dropsRoutes from './routes/drops';
 import './strategies/steamStrategy';
 import './strategies/jwtStrategy';
 
@@ -39,9 +40,10 @@ const mongoDB = process.env.MONGODB_URL as string;
 mongoose.set('strictQuery', false);
 mongoose.connect(mongoDB);
 
-// routes
+// routes;
 app.use('/items', itemsRoutes);
 app.use('/users', usersRoutes);
 app.use('/steamAccounts', steamAccountsRoutes);
+app.use('/drops', dropsRoutes);
 
 app.listen(PORT, () => console.log(`server listening on ${PORT}`));
