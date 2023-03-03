@@ -5,6 +5,7 @@ import { verifyAuth } from '../utils/authenticate';
 import Drops from '../models/drop';
 import validationErrors from '../middlewares/validationErrors';
 import { Idrops, IPagination } from '../types';
+import SteamAccount from '../models/steamAccount';
 
 export const getDrops = [
   verifyAuth,
@@ -55,8 +56,8 @@ export const newDrop = [
     .trim()
     .isNumeric()
     .withMessage('price should be a number')
-    .isLength({ max: 15 })
-    .withMessage('drop name max length is 15')
+    .isFloat({ min: 0 })
+    .withMessage('price cannot be a negative number')
     .escape(),
   body('steam_account_id', 'steam account id is required')
     .trim()
@@ -106,16 +107,17 @@ export const editDrop = [
     .withMessage('quality max length is 30')
     .escape()
     .optional(),
-  body('price', 'price is required')
+  body('price')
     .notEmpty()
     .trim()
     .isNumeric()
-    .withMessage('')
-    .isLength({ max: 15 })
-    .withMessage('drop name max length is 15')
+    .withMessage('price should be a number')
+    .isFloat({ min: 0 })
+    .withMessage('price cannot be a negative number')
     .escape()
     .optional(),
   param('dropId', 'steam account id is required').trim().isMongoId(),
+  validationErrors,
   async (
     req: Request<
       { dropId: Types.ObjectId },
@@ -143,7 +145,6 @@ export const editDrop = [
         update,
         {
           runValidators: true,
-          returnDocument: 'after',
         },
       );
 
@@ -151,7 +152,46 @@ export const editDrop = [
         return res.status(404).json({ message: 'Unauthorized' });
       }
 
-      return res.status(201).json(drop);
+      if (price) {
+        await SteamAccount.findByIdAndUpdate(drop.steam_account_id, {
+          $inc: { money_revenue: update.price - drop.price },
+        });
+      }
+
+      // const dropsTotalPrice: Aggregate<Pick<ISteamAccount, 'money_revenue'>>[] =
+      //   await Drops.aggregate([
+      //     {
+      //       $match: {
+      //         steam_account_id: drop.steam_account_id,
+      //         user_id: new Types.ObjectId(userId),
+      //       },
+      //     },
+      //     {
+      //       $group: {
+      //         _id: null,
+      //         money_revenue: { $sum: '$price' },
+      //       },
+      //     },
+      //     {
+      //       $project: {
+      //         _id: 0,
+      //         money_revenue: '$money_revenue',
+      //       },
+      //     },
+      //   ]);
+
+      // console.log((await dropsTotalPrice[0]).money_revenue);
+      // const accountTotalRevenue = (await dropsTotalPrice[0]).money_revenue;
+
+      // await SteamAccount.findByIdAndUpdate(
+      //   drop.steam_account_id,
+      //   {
+      //     money_revenue: accountTotalRevenue,
+      //   },
+      //   { runValidators: true },
+      // );
+
+      return res.status(201).json({ message: 'drop edited successfully' });
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong' });
     }
@@ -183,7 +223,12 @@ export const deleteDrop = [
       if (!drop) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
-      return res.status(200).json({ succes: true });
+
+      await SteamAccount.findByIdAndUpdate(drop.steam_account_id, {
+        $inc: { money_revenue: -drop.price },
+      });
+
+      return res.status(200).json({ message: 'drop deleted successfully' });
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong' });
     }

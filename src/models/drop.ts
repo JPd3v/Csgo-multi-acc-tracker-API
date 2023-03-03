@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import SteamAccount from './steamAccount';
 
 const Schema = mongoose.Schema;
 
@@ -25,6 +26,15 @@ const dropSchema = new Schema({
     required: true,
   },
   creation_date: { type: Date, required: true, default: Date.now },
+});
+
+dropSchema.pre('save', async function updateAccount() {
+  const steamAccountId = this.steam_account_id;
+  const dropPrice = this.price;
+
+  await SteamAccount.findByIdAndUpdate(steamAccountId, {
+    $inc: { money_revenue: dropPrice },
+  });
 });
 
 export default mongoose.model('Drops', dropSchema);
