@@ -17,14 +17,14 @@ interface ITokenSignature {
   _id: string | Types.ObjectId;
 }
 
-export function getNewAccessToken({ _id }: ITokenSignature) {
-  return jwt.sign(_id, process.env.JWT_SECRET_KEY, {
+export function getNewAccessToken(id: ITokenSignature) {
+  return jwt.sign(id, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
   });
 }
 
-export function getNewRefreshToken(_id: ITokenSignature) {
-  return jwt.sign(_id, process.env.REFRESH_TOKEN_SECRET_KEY, {
+export function getNewRefreshToken(id: ITokenSignature) {
+  return jwt.sign(id, process.env.REFRESH_TOKEN_SECRET_KEY, {
     expiresIn: eval(process.env.REFRESH_TOKEN_EXPIRY),
   });
 }

@@ -1,4 +1,3 @@
-// var JwtStrategy = require('passport-jwt').Strategy,
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
 import User from '../models/user';
@@ -18,7 +17,7 @@ options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 passport.use(
   new Strategy(options, async (jwt_payload, done) => {
     try {
-      const foundUser = await User.findById({ id: jwt_payload._id });
+      const foundUser = await User.findById(jwt_payload._id);
       if (foundUser) {
         return done(null, foundUser);
       }
