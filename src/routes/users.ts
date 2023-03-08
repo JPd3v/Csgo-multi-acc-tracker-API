@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/auth/steam', usersController.steamLogIn);
 router.get('/auth/steam/callback', usersController.steamLogInCallback);
-router.get('/log-out', usersController.logOut);
+router.get('/current-user', usersController.currentUserInfo);
+router.post('/log-out', usersController.logOut);
 router.get('/refresh-token', usersController.newRefreshToken);
 
 export default router;
