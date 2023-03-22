@@ -54,7 +54,7 @@ export const newAccount = [
   body('steam_url', 'steam url must be an steam valid url')
     .trim()
     .isURL({ host_whitelist: ['steamcommunity.com'] })
-    .optional(),
+    .optional({ checkFalsy: true }),
   validationErrors,
   async (
     req: Request<
@@ -90,11 +90,11 @@ export const editAccount = [
     .isLength({ max: 15 })
     .withMessage("name can't be longer than 15 characters")
     .escape()
-    .optional(),
+    .optional({ checkFalsy: true }),
   body('steam_url', 'steam url must be an steam valid url')
     .trim()
     .isURL({ host_whitelist: ['steamcommunity.com'] })
-    .optional(),
+    .optional({ checkFalsy: true }),
   validationErrors,
   async (
     req: Request<
