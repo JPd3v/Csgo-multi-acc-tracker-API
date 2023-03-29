@@ -25,6 +25,7 @@ interface ISteamAccount {
   user_id: Types.ObjectId;
   name: string;
   steam_url?: string;
+  last_drop_timestamp: string;
   money_revenue: number;
 }
 

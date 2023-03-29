@@ -87,20 +87,30 @@ export const editAccount = [
   param('accountId', 'should provide a valid mongodbId ').isMongoId(),
   body('name')
     .trim()
+    .notEmpty()
+    .withMessage("name can't be empty")
     .isLength({ max: 15 })
     .withMessage("name can't be longer than 15 characters")
     .escape()
-    .optional({ checkFalsy: true }),
+    .optional({ nullable: true }),
   body('steam_url', 'steam url must be an steam valid url')
     .trim()
     .isURL({ host_whitelist: ['steamcommunity.com'] })
+    .optional({ checkFalsy: true }),
+  body('last_drop_timestamp', 'drop timestamp cant be empty')
+    .isISO8601()
+    .custom((value: string) => {
+      const todayDate = new Date();
+      return new Date(value) < todayDate;
+    })
+    .withMessage('drop timestamp cant be a future date')
     .optional({ checkFalsy: true }),
   validationErrors,
   async (
     req: Request<
       Record<string, never>,
       Record<string, never>,
-      Pick<ISteamAccount, 'name' | 'steam_url'>
+      Pick<ISteamAccount, 'name' | 'steam_url' | 'last_drop_timestamp'>
     >,
     res: Response,
   ) => {
@@ -109,6 +119,7 @@ export const editAccount = [
     const update = {
       name: req.body.name,
       steam_url: req.body.steam_url,
+      last_drop_timestamp: req.body.last_drop_timestamp,
     };
 
     try {
@@ -124,6 +135,7 @@ export const editAccount = [
 
       return res.status(200).json(updateAccount);
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ message: 'Something went wrong' });
     }
   },
