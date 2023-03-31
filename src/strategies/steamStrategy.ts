@@ -14,7 +14,7 @@ passport.use(
     async (identifier: string, _profile, done) => {
       try {
         const userSteamId = identifier.split('/').at(-1);
-        const foundUser = await User.findOne({ OAuth_id: identifier });
+        const foundUser = await User.findOne({ OAuth_id: userSteamId });
 
         if (!foundUser) {
           const newUser = await User.create({
